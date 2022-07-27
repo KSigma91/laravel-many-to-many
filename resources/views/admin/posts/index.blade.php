@@ -26,11 +26,11 @@
                     <td class="btn btn-success">
                         <a href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit</a>
                     </td>
-                    {{-- <td>
+                    <td>
                         <button class="btn btn-danger">
                             Remove
                         </button>
-                    </td> --}}
+                    </td>
                 </tr>
             @endforeach
         </tbody>

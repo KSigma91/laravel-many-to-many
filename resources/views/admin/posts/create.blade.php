@@ -75,11 +75,13 @@
                 </div>
             @endforeach
 
-            @error('tags')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
+            @foreach ($errors->get('tags.*') as $messages)
+                @foreach ($messages as $message)
+                    <div class="invalid-feedback d-block">
+                        {{ $message }}
+                    </div>
+                @endforeach
+            @endforeach
         </fieldset>
 
         {{-- content form --}}
