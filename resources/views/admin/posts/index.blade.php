@@ -1,6 +1,12 @@
 @extends('admin.layouts.base')
 
 @section('mainContent')
+    @if (session('deleted'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {!! session('deleted') !!}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <h2>
         Posts
     </h2>
@@ -11,25 +17,46 @@
                 <th>Id</th>
                 <th>Slug</th>
                 <th>Title</th>
-                <th>Actions</th>
+                <th>Author</th>
+                <th>Birth</th>
+                <th>Category</th>
+                <th>Tags</th>
+                <th class="action">Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($posts as $post)
-                <tr>
+                <tr data-id="{{ $post->slug }}">
                     <td>{{ $post->id }}</td>
                     <td>{{ $post->slug }}</td>
                     <td>{{ $post->title }}</td>
-                    <td class="btn btn-primary">
-                        <a href="{{ route('admin.posts.show', ['post' => $post]) }}">View</a>
-                    </td>
-                    <td class="btn btn-success">
-                        <a href="{{ route('admin.posts.edit', ['post' => $post]) }}">Edit</a>
+                    <td>{{ $post->user->name }}</td>
+                    <td>{{ $post->user->userInfo->birth }}</td>
+                    <td>
+                        <a href="{{ route('admin.categories.show', ['category' => $post->category]) }}">
+                            {{ $post->category->name }}
+                        </a>
                     </td>
                     <td>
-                        <button class="btn btn-danger">
-                            Remove
-                        </button>
+                        @foreach ($post->tags as $tag)
+                            <a href="{{ route('admin.tags.show', ['tag' => $tag]) }}">
+                                {{ $tag->name }}
+                            </a>
+                            @if(!$loop->last) , @endif
+                        @endforeach
+                    </td>
+                    <td class="actions">
+                        <a href="{{ route('admin.posts.show', ['post' => $post]) }}" class="btn btn-primary">
+                            View
+                        </a>
+                        @if(Auth::id() == $post->user_id)
+                            <a href="{{ route('admin.posts.edit', ['post' => $post]) }}">
+                                Edit
+                            </a>
+                            <button class="btn btn-danger">
+                                Remove
+                            </button>
+                        @endif
                     </td>
                 </tr>
             @endforeach

@@ -36,15 +36,16 @@
                                 </form>
                             </div>
                         </li>
+                        <li class="d-flex align-items-center">
+                            {{-- TODO: posizione momentanea, da rimuovere una volta risolto --}}
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                            </a>
+                        </li>
                 @endguest
             </li>
         </ul>
-        {{-- TODO: posizione momentanea, da rimuovere una volta risolto --}}
-        <a class="dropdown-item" href="{{ route('logout') }}"
-            onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-            {{ __('Logout') }}
-        </a>
     </div>
-
 </nav>

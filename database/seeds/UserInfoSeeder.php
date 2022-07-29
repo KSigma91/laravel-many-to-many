@@ -19,9 +19,9 @@ class UserInfoSeeder extends Seeder
         foreach ($users as $user) {
             UserInfo::create([
                 'user_id'   => $user->id,
-                'address'   => $user->address(),
-                'phone'     => $user->phoneNumber(),
-                'birth'     => $user->date()
+                'address'   => $faker->address(),
+                'phone'     => $faker->phoneNumber(),
+                'birth'     => $faker->date()
             ]);
         }
     }

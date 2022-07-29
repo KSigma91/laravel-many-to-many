@@ -37,6 +37,12 @@ class PostController extends Controller
         return view('admin.posts.index', compact('posts'));
     }
 
+    public function myIndex()
+    {
+        $posts = Auth::user()->posts()->paginate($this->perPage);
+        return view('admin.posts.index', compact('posts'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -61,7 +67,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
+        $this->validation_rules['slug'][] = 'unique:posts';
+        $request->validate($this->validation_rules);
 
         $data = $request->all() + [
             'user_id'   => Auth::id()
@@ -97,9 +104,9 @@ class PostController extends Controller
         $tags = Tag::all();
 
         return view('admin.posts.edit', [
-            'post'      => $post,
-            'categories'      => $categories,
-            'tags'      => $tags
+            'post'          => $post,
+            'categories'    => $categories,
+            'tags'          => $tags
         ]);
     }
 

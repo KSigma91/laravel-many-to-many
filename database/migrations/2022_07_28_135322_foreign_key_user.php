@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserInfoTable extends Migration
+class ForeignKeyUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateUserInfoTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_info', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->string('address', 100)->nullable();
-            $table->string('phone', 20)->nullable();
-            $table->date('birth')->nullable();
-
-            $table->primary('user_id');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->after('id');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
@@ -31,6 +26,9 @@ class CreateUserInfoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_info');
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+        });
     }
 }

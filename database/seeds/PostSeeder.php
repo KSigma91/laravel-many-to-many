@@ -21,7 +21,7 @@ class PostSeeder extends Seeder
         for ($i = 0; $i < 60; $i++) {
             $post = new Post;
             $post->slug = Post::getSlug($post->title);
-            $post->title = $faker->words(rand(2, 4));
+            $post->title = $faker->words(rand(2, 4), true);
             $post->category_id = $faker->randomElement($categories_ids);
             $post->user_id = $faker->randomElement($users_ids);
             $post->image = 'https://picsum.photos/id/' . rand(1, 100) . '/500/300';
